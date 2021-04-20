@@ -17,7 +17,7 @@ import {
   widthPercentageToDP as wp,
 } from '../Utils/Helper/responsive';
 import {CustomStyles} from '../Utils/Style';
-import {ThemeContext} from '../Contexts/ThemeContext';
+import {ThemeContext} from '../Contexts';
 
 const DrawerContent = (props: any) => {
   const [isSwitchOn, setIsSwitchOn] = React.useState(false);

@@ -1,14 +1,15 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {View, SafeAreaView, TouchableOpacity} from 'react-native';
 import styles from './styles';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {CustomStyles} from '../../Utils/Style';
 import {COLORS} from '../../Utils';
-import {Input, LargeButton} from '../../Components';
+import {Input, LargeButton, Spinner} from '../../Components';
 import {Text} from 'react-native-paper';
 import {AuthStackProps} from '../../Navigation/NavigationTypes';
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
+import {UserContext} from '../../Contexts';
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Email Required'),
@@ -19,6 +20,7 @@ const LoginSchema = Yup.object().shape({
 });
 
 const Signin = ({navigation}: AuthStackProps) => {
+  const {signin, user, loading, error} = useContext(UserContext);
   const {
     handleChange,
     handleSubmit,
@@ -30,13 +32,14 @@ const Signin = ({navigation}: AuthStackProps) => {
     validationSchema: LoginSchema,
     initialValues: {email: '', password: ''},
     onSubmit: values => {
-      console.log(`Email: ${values.email}, Password: ${values.password}`);
-      navigation.navigate('RootDrawerNavigator');
+      signin({email: values.email, password: values.password});
     },
   });
 
   return (
     <SafeAreaView style={styles.container}>
+      {loading && <Spinner />}
+
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <FontAwesome name="chevron-left" size={25} style={styles.icon} />
@@ -54,14 +57,25 @@ const Signin = ({navigation}: AuthStackProps) => {
           error={errors.email}
           touched={touched.email}
         />
+        {error ? (
+          <Text style={[CustomStyles.smallButtonText, {color: COLORS.WARNING}]}>
+            {error.email}
+          </Text>
+        ) : null}
         <Input
           placeholder="Password"
           onChangeText={handleChange('password')}
           onBlur={handleBlur('password')}
           error={errors.password}
           touched={touched.password}
+          secureTextEntry={true}
           onSubmitEditing={() => handleSubmit()}
         />
+        {error ? (
+          <Text style={[CustomStyles.smallButtonText, {color: COLORS.WARNING}]}>
+            {error.password}
+          </Text>
+        ) : null}
       </View>
       <TouchableOpacity style={[styles.forgot]}>
         <Text style={[CustomStyles.smallButtonText, {color: COLORS.SECONDARY}]}>

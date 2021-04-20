@@ -10,7 +10,7 @@ const Spinner = () => {
       <View style={styles.indicator}>
         <ActivityIndicator
           size="large"
-          color={COLORS.LIGHT_BLUE}
+          color={COLORS.PRIMARY}
           style={{
             left: 1.3,
             top: 1,
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.SEMI_TRANSPARENT,
   },
   indicator: {
-    backgroundColor: COLORS.DARK_PURPLE,
+    backgroundColor: COLORS.DARK_GRAY,
     height: 44,
     width: 44,
     borderRadius: 22,
