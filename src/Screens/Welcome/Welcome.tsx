@@ -1,5 +1,6 @@
 import React from 'react';
-import {View, Text, ImageBackground, StatusBar} from 'react-native';
+import {StatusBar, View} from 'react-native';
+import {Text} from 'react-native-paper';
 import styles from './styles';
 import {LargeButton} from '../../Components';
 import {COLORS} from '../../Utils';
@@ -18,16 +19,18 @@ const Welcome = ({navigation}: AuthStackProps) => {
           Chat about cars with other passionate fans
         </Text>
       </View>
-      <LargeButton
-        title="Sign In"
-        backgroundColor={COLORS.LIGHT_BLUE}
-        onPress={() => navigation.navigate('Signin')}
-      />
-      <View style={{marginTop: hp(2)}} />
-      <LargeButton
-        title="Sign Up"
-        onPress={() => navigation.navigate('Signup')}
-      />
+      <View style={styles.buttonContainer}>
+        <LargeButton
+          title="Sign In"
+          backgroundColor={COLORS.PRIMARY}
+          onPress={() => navigation.navigate('Signin')}
+        />
+        <View style={{marginTop: hp(2)}} />
+        <LargeButton
+          title="Sign Up"
+          onPress={() => navigation.navigate('Signup')}
+        />
+      </View>
     </View>
   );
 };

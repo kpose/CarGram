@@ -1,48 +1,78 @@
-import React from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-  Platform,
-} from 'react-native';
+import React, {useState} from 'react';
+import {View, SafeAreaView, TouchableOpacity} from 'react-native';
 import styles from './styles';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {CustomStyles} from '../../Utils/Style';
 import {COLORS} from '../../Utils';
 import {Input, LargeButton} from '../../Components';
+import {Text} from 'react-native-paper';
 import {AuthStackProps} from '../../Navigation/NavigationTypes';
+import {useFormik} from 'formik';
+import * as Yup from 'yup';
+
+const LoginSchema = Yup.object().shape({
+  email: Yup.string().email('Invalid email').required('Email Required'),
+  password: Yup.string()
+    .min(6, 'Too Short!')
+    .max(10, 'Too Long!')
+    .required('Password Required'),
+});
 
 const Signin = ({navigation}: AuthStackProps) => {
+  const {
+    handleChange,
+    handleSubmit,
+    handleBlur,
+    values,
+    errors,
+    touched,
+  } = useFormik({
+    validationSchema: LoginSchema,
+    initialValues: {email: '', password: ''},
+    onSubmit: values => {
+      console.log(`Email: ${values.email}, Password: ${values.password}`);
+      navigation.navigate('RootDrawerNavigator');
+    },
+  });
+
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.navigate('Welcome')}>
-          <AntDesign
-            name="arrowleft"
-            color={COLORS.LIGHT_BLUE}
-            size={CustomStyles.navigationIcon}
-          />
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <FontAwesome name="chevron-left" size={25} style={styles.icon} />
         </TouchableOpacity>
-        <Text style={[CustomStyles.title, styles.headerTitle]}>Sign In</Text>
+
+        <Text style={[CustomStyles.heading, styles.title]}>Sign In</Text>
       </View>
+
       <View style={styles.inputContainer}>
         <Input
-          placeholder="E-mail"
-          keyboardType="email-address"
+          placeholder="Email"
+          onChangeText={handleChange('email')}
+          onBlur={handleBlur('email')}
           autoFocus={true}
+          error={errors.email}
+          touched={touched.email}
         />
-        <Input secureTextEntry={true} placeholder="Password" />
+        <Input
+          placeholder="Password"
+          onChangeText={handleChange('password')}
+          onBlur={handleBlur('password')}
+          error={errors.password}
+          touched={touched.password}
+          onSubmitEditing={() => handleSubmit()}
+        />
       </View>
-      <TouchableOpacity style={styles.forgotContainer}>
-        <Text style={[CustomStyles.caption, styles.forgot]}>
+      <TouchableOpacity style={[styles.forgot]}>
+        <Text style={[CustomStyles.smallButtonText, {color: COLORS.SECONDARY}]}>
           Forgot Password?
         </Text>
       </TouchableOpacity>
-      <LargeButton title="Log In" backgroundColor={COLORS.LIGHT_BLUE} />
-    </KeyboardAvoidingView>
+
+      <View style={styles.buttonContainer}>
+        <LargeButton title="Log in" onPress={handleSubmit} />
+      </View>
+    </SafeAreaView>
   );
 };
 

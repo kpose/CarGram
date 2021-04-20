@@ -1,8 +1,9 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View} from 'react-native';
+import {Text} from 'react-native-paper';
 import styles from './styles';
 
-const Signin = () => {
+const Home = () => {
   return (
     <View style={styles.container}>
       <Text>home</Text>
@@ -10,4 +11,4 @@ const Signin = () => {
   );
 };
 
-export default Signin;
+export default Home;

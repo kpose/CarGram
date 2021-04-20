@@ -8,32 +8,30 @@ import {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.PRIMARY,
-    //alignItems: 'center',
   },
   header: {
-    marginTop: hp(6),
-    marginLeft: wp(2),
+    marginLeft: wp(3),
   },
-  headerTitle: {
-    marginLeft: wp(7),
+  icon: {
+    color: COLORS.PRIMARY,
+  },
+  title: {
+    marginLeft: wp(3),
     marginTop: hp(3),
-    color: COLORS.LIGHT_BLUE,
-    marginBottom: hp(5),
+    color: COLORS.PRIMARY,
   },
+
   inputContainer: {
+    marginTop: hp(3),
     alignItems: 'center',
   },
-  forgotContainer: {
-    marginTop: hp(2),
-    marginLeft: wp(7),
-    marginBottom: hp(4),
-  },
   forgot: {
-    color: COLORS.LIGHT_BLUE,
+    marginTop: hp(1),
+    marginLeft: wp(60),
   },
-  divide: {
-    marginTop: hp(5),
+  buttonContainer: {
+    alignItems: 'center',
+    marginTop: hp(3),
   },
 });
 

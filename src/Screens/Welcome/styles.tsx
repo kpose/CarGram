@@ -5,7 +5,6 @@ import {heightPercentageToDP as hp} from '../../Utils/Helper/responsive';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.PRIMARY,
   },
   titleContainer: {
     justifyContent: 'center',
@@ -14,13 +13,15 @@ const styles = StyleSheet.create({
     marginBottom: hp(5),
   },
   title: {
-    color: COLORS.LIGHT_PURPLE,
+    //color: COLORS.LIGHT_PURPLE,
   },
   subheading: {
-    color: COLORS.WHITE,
     marginTop: hp(2),
     fontWeight: 'bold',
     marginBottom: hp(2),
+  },
+  buttonContainer: {
+    alignItems: 'center',
   },
 });
 

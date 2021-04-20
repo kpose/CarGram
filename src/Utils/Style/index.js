@@ -58,6 +58,9 @@ export const CustomStyles = StyleSheet.create({
   listHeader: {
     fontSize: RFValue(17, height),
   },
-  navigationIcon: RFValue(44, height),
-  regularIcon: RFValue(20, height),
+  //navigationIcon: RFValue(44, height),
+  //regularIcon: RFValue(20, height),
 });
+
+export const navigationIcon = RFValue(44, height);
+export const regularIcon = RFValue(20, height);

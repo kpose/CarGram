@@ -5,7 +5,7 @@ export type AuthStackParamList = {
   Welcome: undefined;
   Signin: undefined;
   Signup: undefined;
-  Home: undefined;
+  RootDrawerNavigator: undefined;
 };
 
 type AuthStackNavigationProp = StackNavigationProp<
