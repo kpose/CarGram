@@ -5,6 +5,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {Provider as PaperProvider} from 'react-native-paper';
 import {customLight, customDark, navLight, navDark} from '../Utils/Theme/theme';
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import AuthStack from './AuthStack';
 
@@ -30,6 +31,25 @@ const Routes = () => {
         userData,
       )
       .then(res => {
+        AsyncStorage.setItem('FBIdToken', `Bearer ${res.data.token}`);
+        setUser(res.data);
+        setLoading(false);
+      })
+      .catch(err => {
+        setError(err.response.data);
+        setLoading(false);
+      });
+  }
+
+  function signup(userData: {}) {
+    setLoading(true);
+    axios
+      .post(
+        'https://us-central1-cargram-72669.cloudfunctions.net/api/signup',
+        userData,
+      )
+      .then(res => {
+        AsyncStorage.setItem('FBIdToken', `Bearer ${res.data.token}`);
         setUser(res.data);
         setLoading(false);
       })
@@ -48,9 +68,12 @@ const Routes = () => {
             signin,
             loading,
             error,
+            signup,
           }}>
           <NavigationContainer theme={theme}>
-            {user ? <RootDrawerNavigator /> : <AuthStack />}
+            {/* {user ? <RootDrawerNavigator /> : <AuthStack />} */}
+            {/* {user ? <RootDrawerNavigator /> : <AuthStack />} */}
+            <RootDrawerNavigator />
           </NavigationContainer>
         </UserContext.Provider>
       </PaperProvider>

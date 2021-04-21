@@ -20,7 +20,7 @@ const LoginSchema = Yup.object().shape({
 });
 
 const Signin = ({navigation}: AuthStackProps) => {
-  const {signin, user, loading, error} = useContext(UserContext);
+  const {signin, loading, error} = useContext(UserContext);
   const {
     handleChange,
     handleSubmit,
@@ -32,7 +32,7 @@ const Signin = ({navigation}: AuthStackProps) => {
     validationSchema: LoginSchema,
     initialValues: {email: '', password: ''},
     onSubmit: values => {
-      signin({email: values.email, password: values.password});
+      signin(values);
     },
   });
 

@@ -1,12 +1,13 @@
 import React, {useEffect, useState, useContext} from 'react';
-import {View, FlatList, Alert} from 'react-native';
-import {Text} from 'react-native-paper';
+import {View, FlatList} from 'react-native';
+import {Text, Surface} from 'react-native-paper';
+import {Card} from '../../Components';
 import styles from './styles';
 import axios from 'axios';
 import {Spinner} from '../../Components';
 
 const Home = () => {
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState();
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -24,11 +25,21 @@ const Home = () => {
   }, []);
 
   const renderItem = ({item}: any) => {
-    return <Text>{item.body}</Text>;
+    return <Card post={item} />;
   };
+
+  {
+    console.log(posts);
+  }
   return (
     <View style={styles.container}>
+      {console.log(posts)}
       {loading && <Spinner />}
+      {!posts && (
+        <View>
+          <Text>No Posts</Text>
+        </View>
+      )}
       <FlatList
         data={posts}
         renderItem={renderItem}

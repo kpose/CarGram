@@ -4,6 +4,15 @@ import {RFPercentage, RFValue} from 'react-native-responsive-fontsize';
 const height = Dimensions.get('screen').height;
 
 export const CustomStyles = StyleSheet.create({
+  name: {
+    fontSize: RFValue(18, height),
+    fontWeight: 'bold',
+  },
+
+  postBody: {
+    fontSize: RFValue(16, height),
+  },
+
   title: {
     fontSize: RFValue(45, height),
     fontWeight: 'bold',
