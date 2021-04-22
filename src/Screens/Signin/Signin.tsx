@@ -1,4 +1,5 @@
-import React, {useState, useContext} from 'react';
+import React from 'react';
+import * as Yup from 'yup';
 import {View, SafeAreaView, TouchableOpacity} from 'react-native';
 import styles from './styles';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -8,8 +9,8 @@ import {Input, LargeButton, Spinner} from '../../Components';
 import {Text} from 'react-native-paper';
 import {AuthStackProps} from '../../Navigation/NavigationTypes';
 import {useFormik} from 'formik';
-import * as Yup from 'yup';
-import {UserContext} from '../../Contexts';
+import {useDispatch, useSelector} from 'react-redux';
+import {loginUser} from '../../Redux/Actions/UserActions';
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Email Required'),
@@ -20,7 +21,9 @@ const LoginSchema = Yup.object().shape({
 });
 
 const Signin = ({navigation}: AuthStackProps) => {
-  const {signin, loading, error} = useContext(UserContext);
+  const dispatch = useDispatch();
+  const {loading, error} = useSelector(state => state.UI);
+
   const {
     handleChange,
     handleSubmit,
@@ -32,7 +35,7 @@ const Signin = ({navigation}: AuthStackProps) => {
     validationSchema: LoginSchema,
     initialValues: {email: '', password: ''},
     onSubmit: values => {
-      signin(values);
+      dispatch(loginUser(values));
     },
   });
 

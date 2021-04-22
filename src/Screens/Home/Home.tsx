@@ -1,6 +1,5 @@
-import React, {useEffect, useState, useContext} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, FlatList} from 'react-native';
-import {Text, Surface} from 'react-native-paper';
 import {Card} from '../../Components';
 import styles from './styles';
 import axios from 'axios';
@@ -28,18 +27,10 @@ const Home = () => {
     return <Card post={item} />;
   };
 
-  {
-    console.log(posts);
-  }
   return (
     <View style={styles.container}>
-      {console.log(posts)}
       {loading && <Spinner />}
-      {!posts && (
-        <View>
-          <Text>No Posts</Text>
-        </View>
-      )}
+
       <FlatList
         data={posts}
         renderItem={renderItem}

@@ -1,81 +1,31 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {RootDrawerNavigator} from './RootDrawerNavigator';
-import {ThemeContext, UserContext} from '../Contexts';
+import AuthStack from './AuthStack';
+import {ThemeContext} from '../Contexts';
 import {NavigationContainer} from '@react-navigation/native';
 import {Provider as PaperProvider} from 'react-native-paper';
 import {customLight, customDark, navLight, navDark} from '../Utils/Theme/theme';
-import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-import AuthStack from './AuthStack';
+import {useSelector} from 'react-redux';
 
 const CombinedDefaultTheme = {...customLight, ...navLight};
 const CombinedDarkTheme = {...customDark, ...navDark};
 
 const Routes = () => {
   const [isDarkTheme, setIsDarkTheme] = React.useState(false);
-  const [user, setUser] = React.useState();
-  const [loading, setLoading] = React.useState(false);
-  const [error, setError] = React.useState();
+  const {authenticated} = useSelector(state => state.user);
 
   const theme = isDarkTheme ? CombinedDarkTheme : CombinedDefaultTheme;
 
   function toggleTheme() {
     setIsDarkTheme(!isDarkTheme);
   }
-  function signin(userData: {}) {
-    setLoading(true);
-    axios
-      .post(
-        'https://us-central1-cargram-72669.cloudfunctions.net/api/login',
-        userData,
-      )
-      .then(res => {
-        AsyncStorage.setItem('FBIdToken', `Bearer ${res.data.token}`);
-        setUser(res.data);
-        setLoading(false);
-      })
-      .catch(err => {
-        setError(err.response.data);
-        setLoading(false);
-      });
-  }
-
-  function signup(userData: {}) {
-    setLoading(true);
-    axios
-      .post(
-        'https://us-central1-cargram-72669.cloudfunctions.net/api/signup',
-        userData,
-      )
-      .then(res => {
-        AsyncStorage.setItem('FBIdToken', `Bearer ${res.data.token}`);
-        setUser(res.data);
-        setLoading(false);
-      })
-      .catch(err => {
-        setError(err.response.data);
-        setLoading(false);
-      });
-  }
 
   return (
     <ThemeContext.Provider value={{isDarkTheme, toggleTheme}}>
       <PaperProvider theme={theme}>
-        <UserContext.Provider
-          value={{
-            user,
-            signin,
-            loading,
-            error,
-            signup,
-          }}>
-          <NavigationContainer theme={theme}>
-            {/* {user ? <RootDrawerNavigator /> : <AuthStack />} */}
-            {/* {user ? <RootDrawerNavigator /> : <AuthStack />} */}
-            <RootDrawerNavigator />
-          </NavigationContainer>
-        </UserContext.Provider>
+        <NavigationContainer theme={theme}>
+          {authenticated ? <RootDrawerNavigator /> : <AuthStack />}
+        </NavigationContainer>
       </PaperProvider>
     </ThemeContext.Provider>
   );

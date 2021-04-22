@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, Image, TouchableOpacity} from 'react-native';
 import {Surface, Text, Avatar, Button} from 'react-native-paper';
 import {
@@ -11,6 +11,7 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import {COLORS} from '../../Utils';
 import {ThemeContext} from '../../Contexts';
+import {UserContext} from '../../Contexts/UserProvider';
 
 type CardProps = {
   post: any;
@@ -19,6 +20,7 @@ type CardProps = {
 const imag = require('../..//Assets/Images/1.jpg');
 
 const Card = (props: CardProps) => {
+  const {removeToken} = useContext(UserContext);
   const {
     body,
     userHandle,
@@ -49,7 +51,7 @@ const Card = (props: CardProps) => {
               </Text>
             </View>
 
-            <TouchableOpacity onPress={() => console.log('image pressed')}>
+            <TouchableOpacity onPress={() => removeToken()}>
               <Image source={imag} style={styles.image} />
             </TouchableOpacity>
             <View style={styles.buttonsContainer}>
