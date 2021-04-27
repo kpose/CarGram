@@ -33,7 +33,8 @@ export const customLight = {
   colors: {
     ...PaperDefault.colors,
     primary: '#085001',
-    accent: '#710D7A',
+    accent: '#9924A3',
+    surface: '#501A55',
   },
   fonts: {
     regular: {
@@ -66,7 +67,8 @@ export const customDark = {
   colors: {
     ...PaperDark.colors,
     primary: '#085001',
-    accent: '#452548',
+    accent: '#710D7A',
+    surface: '#2C152E',
   },
   fonts: {
     regular: {

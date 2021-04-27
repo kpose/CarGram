@@ -12,6 +12,8 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import {COLORS} from '../../Utils';
 import {ThemeContext} from '../../Contexts';
 import {UserContext} from '../../Contexts/UserProvider';
+import {useDispatch} from 'react-redux';
+import {logoutUser} from '../../Redux/Actions/UserActions';
 
 type CardProps = {
   post: any;
@@ -21,6 +23,7 @@ const imag = require('../..//Assets/Images/1.jpg');
 
 const Card = (props: CardProps) => {
   const {removeToken} = useContext(UserContext);
+  const dispatch = useDispatch();
   const {
     body,
     userHandle,
@@ -51,7 +54,7 @@ const Card = (props: CardProps) => {
               </Text>
             </View>
 
-            <TouchableOpacity onPress={() => removeToken()}>
+            <TouchableOpacity onPress={() => dispatch(logoutUser)}>
               <Image source={imag} style={styles.image} />
             </TouchableOpacity>
             <View style={styles.buttonsContainer}>

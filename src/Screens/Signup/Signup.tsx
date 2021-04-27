@@ -9,7 +9,8 @@ import {Text} from 'react-native-paper';
 import {AuthStackProps} from '../../Navigation/NavigationTypes';
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
-import {UserContext} from '../../Contexts';
+import {useDispatch, useSelector} from 'react-redux';
+import {signupUser} from '../../Redux/Actions/UserActions';
 
 const SignupSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Email Required'),
@@ -25,7 +26,8 @@ const SignupSchema = Yup.object().shape({
 });
 
 const Signup = ({navigation}: AuthStackProps) => {
-  const {signup, loading, error} = useContext(UserContext);
+  const dispatch = useDispatch();
+  const {loading, error} = useSelector(state => state.UI);
 
   const {
     handleChange,
@@ -39,7 +41,7 @@ const Signup = ({navigation}: AuthStackProps) => {
     initialValues: {email: '', password: '', handle: '', confirmPassword: ''},
     onSubmit: values => {
       console.log(values);
-      signup(values);
+      dispatch(signupUser(values));
     },
   });
 
@@ -64,7 +66,11 @@ const Signup = ({navigation}: AuthStackProps) => {
           keyboardType="email-address"
           autoFocus={true}
         />
-
+        {error ? (
+          <Text style={[CustomStyles.smallButtonText, {color: COLORS.WARNING}]}>
+            {error.email}
+          </Text>
+        ) : null}
         <Input
           placeholder="Handle"
           onChangeText={handleChange('handle')}
@@ -72,6 +78,12 @@ const Signup = ({navigation}: AuthStackProps) => {
           error={errors.handle}
           touched={touched.handle}
         />
+
+        {error ? (
+          <Text style={[CustomStyles.smallButtonText, {color: COLORS.WARNING}]}>
+            {error.handle}
+          </Text>
+        ) : null}
         <Input
           placeholder="Password"
           onChangeText={handleChange('password')}

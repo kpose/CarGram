@@ -12,17 +12,15 @@ import {
   Switch,
 } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {
-  heightPercentageToDP as hp,
-  widthPercentageToDP as wp,
-} from '../Utils/Helper/responsive';
-import {CustomStyles} from '../Utils/Style';
 import {ThemeContext} from '../Contexts';
+import {useSelector} from 'react-redux';
 
 const DrawerContent = (props: any) => {
   const [isSwitchOn, setIsSwitchOn] = React.useState(false);
+  const {toggleTheme, isDarkTheme} = React.useContext(ThemeContext);
+  const {credentials} = useSelector(state => state.user);
 
-  const {toggleTheme} = React.useContext(ThemeContext);
+  const {navigation} = props;
 
   const onToggleSwitch = () => {
     setIsSwitchOn(!isSwitchOn);
@@ -34,13 +32,12 @@ const DrawerContent = (props: any) => {
         <View style={styles.userInfoSection}>
           <Avatar.Image
             source={{
-              uri:
-                'https://pbs.twimg.com/profile_images/952545910990495744/b59hSXUd_400x400.jpg',
+              uri: credentials.imageUrl,
             }}
             size={50}
           />
           <Title style={styles.title}>Kpose Richard</Title>
-          <Caption style={styles.caption}>@kpose</Caption>
+          <Caption style={styles.caption}>@{credentials.handle}</Caption>
           <View style={styles.row}>
             <View style={styles.section}>
               <Paragraph style={[styles.paragraph, styles.caption]}>
@@ -66,7 +63,9 @@ const DrawerContent = (props: any) => {
               />
             )}
             label="Profile"
-            onPress={() => {}}
+            onPress={() => {
+              navigation.navigate('Profile');
+            }}
           />
           <DrawerItem
             icon={({color, size}) => (

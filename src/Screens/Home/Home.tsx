@@ -4,10 +4,12 @@ import {Card} from '../../Components';
 import styles from './styles';
 import axios from 'axios';
 import {Spinner} from '../../Components';
+import {useDispatch} from 'react-redux';
 
 const Home = () => {
   const [posts, setPosts] = useState();
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setLoading(true);

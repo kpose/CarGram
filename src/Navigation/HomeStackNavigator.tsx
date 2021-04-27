@@ -3,7 +3,11 @@ import {TouchableOpacity} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {Appbar, Avatar} from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {Home} from '../Screens';
+import {Home, Profile} from '../Screens';
+import {useSelector} from 'react-redux';
+import {customLight, customDark, navLight, navDark} from '../Utils/Theme/theme';
+import {ThemeContext} from '../Contexts';
+
 const Stack = createStackNavigator();
 
 export const HomeStackNavigator = () => {
@@ -21,11 +25,24 @@ export const HomeStackNavigator = () => {
         component={Home}
         options={{headerTitle: 'Hooko'}}
       />
+
+      <Stack.Screen
+        name="Profile"
+        component={Profile}
+        options={{headerShown: false}}
+      />
     </Stack.Navigator>
   );
 };
 
 const Header = ({scene, previous, navigation}: any) => {
+  const {credentials} = useSelector(state => state.user);
+
+  const {isDarkTheme} = React.useContext(ThemeContext);
+
+  const CombinedDefaultTheme = {...customLight, ...navLight};
+  const CombinedDarkTheme = {...customDark, ...navDark};
+
   const {options} = scene.descriptor;
   const title =
     options.headerTitle !== undefined
@@ -35,30 +52,34 @@ const Header = ({scene, previous, navigation}: any) => {
       : scene.route.name;
 
   return (
-    <Appbar.Header /* theme={{colors: {primary: theme.colors.surface}}} */>
+    <Appbar.Header
+      theme={{
+        colors: {
+          primary: isDarkTheme
+            ? CombinedDarkTheme.colors.primary
+            : CombinedDefaultTheme.colors.primary,
+        },
+      }}>
       {previous ? (
         <Appbar.BackAction
           onPress={navigation.pop}
-          /* color={theme.colors.primary} */
+          color={
+            isDarkTheme
+              ? CombinedDarkTheme.colors.accent
+              : CombinedDefaultTheme.colors.accent
+          }
         />
       ) : (
         <TouchableOpacity
           onPress={() => {
             navigation.openDrawer();
           }}>
-          <Avatar.Image
-            size={40}
-            source={{
-              uri:
-                'https://pbs.twimg.com/profile_images/952545910990495744/b59hSXUd_400x400.jpg',
-            }}
-            style={{backgroundColor: 'red'}}
-          />
+          <Avatar.Icon size={40} icon="apps" />
         </TouchableOpacity>
       )}
       <Appbar.Content
         title={
-          previous ? title : <MaterialCommunityIcons name="twitter" size={40} />
+          previous ? title : <MaterialCommunityIcons name="home" size={10} />
         }
       />
     </Appbar.Header>

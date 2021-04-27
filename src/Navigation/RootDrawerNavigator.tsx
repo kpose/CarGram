@@ -7,8 +7,10 @@ const Drawer = createDrawerNavigator();
 
 export const RootDrawerNavigator = () => {
   return (
-    <Drawer.Navigator drawerContent={() => <DrawerContent />}>
-      <Drawer.Screen name="HomeStackNavigator" component={BottomTabNavigator} />
+    <Drawer.Navigator
+      drawerType="slide"
+      drawerContent={props => <DrawerContent {...props} />}>
+      <Drawer.Screen name="BottomTabNavigator" component={BottomTabNavigator} />
     </Drawer.Navigator>
   );
 };

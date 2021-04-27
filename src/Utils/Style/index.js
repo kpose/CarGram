@@ -62,7 +62,7 @@ export const CustomStyles = StyleSheet.create({
     fontWeight: 'bold',
   },
   smallButtonText: {
-    fontSize: RFValue(13, height),
+    fontSize: RFValue(11, height),
   },
   listHeader: {
     fontSize: RFValue(17, height),

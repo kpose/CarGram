@@ -5,9 +5,12 @@ import {
   LOADING_UI,
   SET_AUTHENTICATED,
   SET_UNAUTHENTICATED,
+  SET_USER_TOKEN,
+  REMOVE_USER_TOKEN,
 } from '../Constants';
 
 const initialState = {
+  token: '',
   authenticated: false,
   credentials: {},
   likes: [],
@@ -26,8 +29,20 @@ export default function (state = initialState, action: any) {
 
     case SET_USER:
       return {
+        token: state.token,
         authenticated: true,
         ...action.payload,
+      };
+
+    case SET_USER_TOKEN:
+      return {
+        ...state,
+        token: action.payload,
+      };
+
+    case REMOVE_USER_TOKEN:
+      return {
+        initialState,
       };
 
     default:
