@@ -1,10 +1,9 @@
 import React from 'react';
-import {View, TouchableOpacity, ImageBackground} from 'react-native';
-import {Text, Button} from 'react-native-paper';
+import {View} from 'react-native';
 import styles from './styles';
 import {useSelector} from 'react-redux';
 import {HomeStackProps} from '../../Navigation/NavigationTypes';
-import {ProfileHeader} from '../../Components';
+import {ProfileHeader, BioArea} from '../../Components';
 
 const Profile = ({navigation}: HomeStackProps) => {
   const {credentials} = useSelector(state => state.user);
@@ -14,6 +13,13 @@ const Profile = ({navigation}: HomeStackProps) => {
       <ProfileHeader
         onBackPress={() => navigation.navigate('Home')}
         profileImage={credentials.imageUrl}
+      />
+
+      <BioArea
+        bio={credentials.bio}
+        location={credentials.location}
+        website={credentials.website}
+        created={credentials.createdAt}
       />
     </View>
   );

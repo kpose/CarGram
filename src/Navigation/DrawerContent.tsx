@@ -14,6 +14,7 @@ import {
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {ThemeContext} from '../Contexts';
 import {useSelector} from 'react-redux';
+import {CustomStyles} from '../Utils/Style';
 
 const DrawerContent = (props: any) => {
   const [isSwitchOn, setIsSwitchOn] = React.useState(false);
@@ -36,20 +37,22 @@ const DrawerContent = (props: any) => {
             }}
             size={50}
           />
-          <Title style={styles.title}>Kpose Richard</Title>
-          <Caption style={styles.caption}>@{credentials.handle}</Caption>
+          <Title style={[CustomStyles.heading]}>Kpose Richard</Title>
+          <Caption style={[CustomStyles.caption]}>
+            @{credentials.handle}
+          </Caption>
           <View style={styles.row}>
             <View style={styles.section}>
-              <Paragraph style={[styles.paragraph, styles.caption]}>
+              <Paragraph style={[CustomStyles.caption, styles.paragraph]}>
                 202
               </Paragraph>
-              <Caption style={styles.caption}>Following</Caption>
+              <Caption style={[CustomStyles.caption]}>Following</Caption>
             </View>
             <View style={styles.section}>
-              <Paragraph style={[styles.paragraph, styles.caption]}>
+              <Paragraph style={[CustomStyles.caption, styles.paragraph]}>
                 159
               </Paragraph>
-              <Caption style={styles.caption}>Followers</Caption>
+              <Caption style={[CustomStyles.caption]}>Followers</Caption>
             </View>
           </View>
         </View>
