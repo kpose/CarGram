@@ -17,6 +17,13 @@ const styles = StyleSheet.create({
     marginTop: hp(5),
     marginLeft: wp(4),
   },
+  modalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  modalAction: {
+    margin: wp(2),
+  },
 });
 
 export default styles;

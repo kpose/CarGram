@@ -26,7 +26,7 @@ export const CustomStyles = StyleSheet.create({
     fontSize: RFValue(23, height),
   },
   textInput: {
-    fontSize: RFValue(23, height),
+    fontSize: RFValue(16, height),
   },
   bodyText: {
     fontSize: RFValue(23, height),

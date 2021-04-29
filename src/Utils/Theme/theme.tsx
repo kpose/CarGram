@@ -92,3 +92,6 @@ export const customDark = {
     scale: 1.0,
   },
 };
+
+export const CombinedDefaultTheme = {...customLight, ...navLight};
+export const CombinedDarkTheme = {...customDark, ...navDark};

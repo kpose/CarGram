@@ -10,7 +10,7 @@ type HeaderProps = {
   profileHeader: string;
   buttonTitle: string;
   active?: boolean;
-  onButtonPress: () => {};
+  onButtonPress: any;
   onAvatarPress: () => {};
   onBackPress: any;
 };

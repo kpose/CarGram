@@ -14,14 +14,21 @@ type BioAreaProps = {
   location: string;
   website: string;
   created: string;
+  handle: string;
+  firstname: string;
+  lastname: string;
 };
 
 const BioArea = (props: BioAreaProps) => {
   return (
     <View style={styles.container}>
-      <Text style={[CustomStyles.heading]}>Alistair Milne</Text>
-      <Text style={[CustomStyles.caption]}>@alistitoip</Text>
-      <Text style={[CustomStyles.postBody, styles.bio]}>{props.bio}</Text>
+      <Text style={[CustomStyles.heading]}>
+        {props.firstname} {props.lastname}
+      </Text>
+      <Text style={[CustomStyles.caption]}>@{props.handle}</Text>
+      {props.bio ? (
+        <Text style={[CustomStyles.postBody, styles.bio]}>{props.bio}</Text>
+      ) : null}
       <View style={styles.locationContainer}>
         {props.location && (
           <>

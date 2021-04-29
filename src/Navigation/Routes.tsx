@@ -5,12 +5,9 @@ import AuthStack from './AuthStack';
 import {ThemeContext} from '../Contexts';
 import {NavigationContainer} from '@react-navigation/native';
 import {Provider as PaperProvider} from 'react-native-paper';
-import {customLight, customDark, navLight, navDark} from '../Utils/Theme/theme';
+import {CombinedDarkTheme, CombinedDefaultTheme} from '../Utils/Theme/theme';
 import {useSelector, useDispatch} from 'react-redux';
 import {getToken, getUserData} from '../Redux/Actions/UserActions';
-
-const CombinedDefaultTheme = {...customLight, ...navLight};
-const CombinedDarkTheme = {...customDark, ...navDark};
 
 const Routes = () => {
   const [isDarkTheme, setIsDarkTheme] = React.useState(false);

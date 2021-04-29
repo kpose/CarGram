@@ -15,6 +15,8 @@ import {signupUser} from '../../Redux/Actions/UserActions';
 const SignupSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Email Required'),
   handle: Yup.string().min(3, 'Too Short!').required('Handle is Required'),
+  firstname: Yup.string().min(1, 'Invalid!').required('Provide first name'),
+  lastname: Yup.string().min(1, 'Invalid!').required('Provide last name'),
   password: Yup.string()
     .min(6, 'Too Short!')
     .max(10, 'Too Long!')
@@ -38,7 +40,14 @@ const Signup = ({navigation}: AuthStackProps) => {
     touched,
   } = useFormik({
     validationSchema: SignupSchema,
-    initialValues: {email: '', password: '', handle: '', confirmPassword: ''},
+    initialValues: {
+      email: '',
+      password: '',
+      handle: '',
+      confirmPassword: '',
+      firstname: '',
+      lastname: '',
+    },
     onSubmit: values => {
       console.log(values);
       dispatch(signupUser(values));
@@ -57,6 +66,22 @@ const Signup = ({navigation}: AuthStackProps) => {
       </View>
 
       <View style={styles.inputContainer}>
+        <Input
+          placeholder="Firstname"
+          onChangeText={handleChange('firstname')}
+          onBlur={handleBlur('email')}
+          error={errors.firstname}
+          touched={touched.email}
+        />
+
+        <Input
+          placeholder="Lastname"
+          onChangeText={handleChange('lastname')}
+          onBlur={handleBlur('email')}
+          error={errors.lastname}
+          touched={touched.email}
+        />
+
         <Input
           placeholder="Email"
           onChangeText={handleChange('email')}
