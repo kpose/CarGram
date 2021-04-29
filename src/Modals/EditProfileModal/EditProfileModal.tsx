@@ -5,9 +5,16 @@ import {useSelector, useDispatch} from 'react-redux';
 import styles from './styles';
 import * as ImagePicker from 'react-native-image-picker';
 import {CustomStyles} from '../../Utils/Style';
-import {uploadProfileImage} from '../../Redux/Actions/UserActions';
+import {
+  editUserDetails,
+  uploadProfileImage,
+} from '../../Redux/Actions/UserActions';
 
-const EditProfileModal = () => {
+type EditProfileProps = {
+  close: any;
+};
+
+const EditProfileModal = (props: EditProfileProps) => {
   const {credentials} = useSelector(state => state.user);
   const [imageSource, setImageSource] = useState('');
   const [imageName, setImageName] = useState('');
@@ -37,7 +44,20 @@ const EditProfileModal = () => {
   const saveProfile = () => {
     const formData = new FormData();
     formData.append('image', {uri: imageSource, name: imageName});
-    dispatch(uploadProfileImage(formData));
+    if (imageSource) {
+      dispatch(uploadProfileImage(formData));
+    } else {
+      console.log('kiki');
+    }
+
+    const userDetails = {
+      firstname: firstname,
+      lastname: lastname,
+      bio: bio,
+      website: website,
+      location: location,
+    };
+    dispatch(editUserDetails(userDetails));
   };
 
   return (

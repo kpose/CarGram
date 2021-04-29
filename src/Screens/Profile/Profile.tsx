@@ -56,7 +56,7 @@ const Profile = ({navigation}: HomeStackProps) => {
             : CombinedDefaultTheme.colors.background,
         }}
         HeaderComponent={modalHeader}>
-        <EditProfileModal />
+        <EditProfileModal close={() => editProfileRef.current?.open()} />
       </Modalize>
 
       <View style={styles.container}>
