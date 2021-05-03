@@ -1,14 +1,17 @@
 import React, {useState} from 'react';
 import {View, TouchableOpacity} from 'react-native';
-import {Text, TextInput, Avatar} from 'react-native-paper';
+import {Text, TextInput, Avatar, Button} from 'react-native-paper';
 import {useSelector, useDispatch} from 'react-redux';
 import styles from './styles';
+import {Spinner} from '../../Components';
 import * as ImagePicker from 'react-native-image-picker';
 import {CustomStyles} from '../../Utils/Style';
 import {
+  authenticated,
   editUserDetails,
   uploadProfileImage,
 } from '../../Redux/Actions/UserActions';
+import {CLEAR_ERRORS} from '../../Redux/Constants';
 
 type EditProfileProps = {
   close: any;
@@ -16,6 +19,7 @@ type EditProfileProps = {
 
 const EditProfileModal = (props: EditProfileProps) => {
   const {credentials} = useSelector(state => state.user);
+  const {loading} = useSelector(state => state.UI);
   const [imageSource, setImageSource] = useState('');
   const [imageName, setImageName] = useState('');
   const [firstname, setFirstname] = useState('');
@@ -25,13 +29,14 @@ const EditProfileModal = (props: EditProfileProps) => {
   const [location, setLocation] = useState('');
   const dispatch = useDispatch();
 
+  console.log(loading);
+
   const selectImage = () => {
     ImagePicker.launchImageLibrary(
       {mediaType: 'photo', includeBase64: false, maxHeight: 200, maxWidth: 200},
       response => {
-        console.log({response});
         if (response.didCancel) {
-          console.log('cancled');
+          console.log('canceled');
         } else {
           const photo = response.uri;
           setImageSource(photo);
@@ -47,9 +52,8 @@ const EditProfileModal = (props: EditProfileProps) => {
     if (imageSource) {
       dispatch(uploadProfileImage(formData));
     } else {
-      console.log('kiki');
+      console.log('no image selected');
     }
-
     const userDetails = {
       firstname: firstname,
       lastname: lastname,
@@ -58,10 +62,13 @@ const EditProfileModal = (props: EditProfileProps) => {
       location: location,
     };
     dispatch(editUserDetails(userDetails));
+    dispatch({type: CLEAR_ERRORS});
+    props.close();
   };
 
   return (
     <View style={styles.container}>
+      {loading && <Spinner />}
       <View style={styles.avatarContainer}>
         <TouchableOpacity onPress={selectImage}>
           <Avatar.Image
@@ -114,9 +121,14 @@ const EditProfileModal = (props: EditProfileProps) => {
           style={[styles.largeInput, CustomStyles.textInput]}
         />
 
-        <TouchableOpacity onPress={saveProfile}>
-          <Text style={[CustomStyles.modalAction]}>Cancel</Text>
-        </TouchableOpacity>
+        <Button
+          icon="content-save-edit-outline"
+          mode="contained"
+          onPress={saveProfile}
+          style={styles.button}>
+          {' '}
+          Save
+        </Button>
       </View>
     </View>
   );

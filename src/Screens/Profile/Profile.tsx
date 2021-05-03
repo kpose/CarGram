@@ -30,7 +30,7 @@ const Profile = ({navigation}: HomeStackProps) => {
             Cancel
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => console.log('ki')}>
+        {/* <TouchableOpacity onPress={() => console.log('ki')}>
           <Text
             style={[
               CustomStyles.modalAction,
@@ -39,12 +39,11 @@ const Profile = ({navigation}: HomeStackProps) => {
             ]}>
             Save
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     );
   };
 
-  console.log(credentials);
   return (
     <>
       <Modalize
@@ -56,7 +55,7 @@ const Profile = ({navigation}: HomeStackProps) => {
             : CombinedDefaultTheme.colors.background,
         }}
         HeaderComponent={modalHeader}>
-        <EditProfileModal close={() => editProfileRef.current?.open()} />
+        <EditProfileModal close={() => editProfileRef.current?.close()} />
       </Modalize>
 
       <View style={styles.container}>

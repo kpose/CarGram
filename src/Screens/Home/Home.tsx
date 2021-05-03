@@ -4,25 +4,15 @@ import {Card} from '../../Components';
 import styles from './styles';
 import axios from 'axios';
 import {Spinner} from '../../Components';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {getPosts} from '../../Redux/Actions/DataActions';
 
 const Home = () => {
-  const [posts, setPosts] = useState();
-  const [loading, setLoading] = useState(false);
+  const {loading, posts} = useSelector(state => state.data);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setLoading(true);
-    axios
-      .get('https://us-central1-cargram-72669.cloudfunctions.net/api/posts')
-      .then(response => {
-        setPosts(response.data);
-        setLoading(false);
-      })
-      .catch(err => {
-        setLoading(false);
-        console.log(err);
-      });
+    dispatch(getPosts());
   }, []);
 
   const renderItem = ({item}: any) => {
@@ -32,12 +22,13 @@ const Home = () => {
   return (
     <View style={styles.container}>
       {loading && <Spinner />}
-
-      <FlatList
-        data={posts}
-        renderItem={renderItem}
-        keyExtractor={item => item.postId}
-      />
+      {posts && (
+        <FlatList
+          data={posts}
+          renderItem={renderItem}
+          keyExtractor={item => item.postId}
+        />
+      )}
     </View>
   );
 };

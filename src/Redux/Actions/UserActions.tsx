@@ -20,10 +20,10 @@ export const loginUser = (userData: {}) => (dispatch: any) => {
     )
     .then(res => {
       setAuthorizationHeader(res.data.token);
-      //console.log(res.data.token);
       dispatch({type: SET_USER_TOKEN, payload: res.data.token});
+
+      dispatch(getUserData());
       dispatch({type: SET_AUTHENTICATED});
-      //dispatch(getUserData());
       dispatch({type: CLEAR_ERRORS});
     })
     .catch(err => {
@@ -31,6 +31,17 @@ export const loginUser = (userData: {}) => (dispatch: any) => {
         type: SET_ERRORS,
         payload: err.response.data,
       });
+    });
+};
+
+export const authenticated = () => (dispatch: any) => {
+  axios
+    .get('https://us-central1-cargram-72669.cloudfunctions.net/api/current')
+    .then(res => {
+      console.log(res);
+    })
+    .catch(err => {
+      console.log(err);
     });
 };
 
@@ -45,7 +56,7 @@ export const signupUser = (newUserData: {}) => (dispatch: any) => {
       setAuthorizationHeader(res.data.token);
       dispatch({type: SET_USER_TOKEN, payload: res.data.token});
       dispatch({type: SET_AUTHENTICATED});
-      //dispatch(getUserData());
+      dispatch(getUserData());
       dispatch({type: CLEAR_ERRORS});
     })
     .catch(err => {
@@ -64,22 +75,22 @@ export const getToken = () => async (dispatch: any) => {
   });
 };
 
-export const logoutUser = (dispatch: any) => {
+export const logoutUser = () => (dispatch: any) => {
   AsyncStorage.removeItem('FBIdToken');
   delete axios.defaults.headers.common['Authorization'];
+  dispatch({SET_UNAUTHENTICATED});
   dispatch({
     type: REMOVE_USER_TOKEN,
   });
 };
 
 export const getUserData = () => async (dispatch: any) => {
-  const FBIdToken = await AsyncStorage.getItem('FBIdToken');
+  /* const FBIdToken = await AsyncStorage.getItem('FBIdToken');
 
-  axios.defaults.headers.common['Authorization'] = FBIdToken;
+  axios.defaults.headers.common['Authorization'] = FBIdToken; */
   axios
     .get('https://us-central1-cargram-72669.cloudfunctions.net/api/user')
     .then(res => {
-      console.log(res.data);
       dispatch({
         type: SET_USER,
         payload: res.data,
@@ -99,6 +110,7 @@ export const uploadProfileImage = (formData: any) => (dispatch: any) => {
     )
     .then(() => {
       dispatch(getUserData());
+      dispatch({type: CLEAR_ERRORS});
     })
     .catch(err => {
       console.log(err);
@@ -114,6 +126,7 @@ export const editUserDetails = (userDetails: any) => (dispatch: any) => {
     )
     .then(() => {
       dispatch(getUserData());
+      dispatch({type: CLEAR_ERRORS});
     })
     .catch(err => {
       console.log(err);

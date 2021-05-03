@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {View, Image, TouchableOpacity} from 'react-native';
 import {Surface, Text, Avatar, Button} from 'react-native-paper';
 import {
@@ -11,9 +11,10 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import {COLORS} from '../../Utils';
 import {ThemeContext} from '../../Contexts';
-import {UserContext} from '../../Contexts/UserProvider';
-import {useDispatch} from 'react-redux';
-import {logoutUser} from '../../Redux/Actions/UserActions';
+import {useDispatch, useSelector} from 'react-redux';
+import {authenticated, logoutUser} from '../../Redux/Actions/UserActions';
+import auth from '@react-native-firebase/auth';
+import {unlikePost, likePost} from '../../Redux/Actions/DataActions';
 
 type CardProps = {
   post: any;
@@ -22,8 +23,12 @@ type CardProps = {
 const imag = require('../..//Assets/Images/1.jpg');
 
 const Card = (props: CardProps) => {
-  const {removeToken} = useContext(UserContext);
   const dispatch = useDispatch();
+  const {
+    likes,
+    credentials: {handle},
+  } = useSelector(state => state.user);
+  console.log(props.post);
   const {
     body,
     userHandle,
@@ -31,11 +36,27 @@ const Card = (props: CardProps) => {
     commentCount,
     likeCount,
     userImage,
+    postId,
   } = props.post;
   const {theme} = React.useContext(ThemeContext);
   dayjs.extend(relativeTime);
+
+  const likedPost = () => {
+    if (likes && likes.find(like => like.postId === postId)) return true;
+    else return false;
+  };
+
+  const likeThisPost = () => {
+    dispatch(likePost(postId));
+  };
+
+  const unlikeThisPost = () => {
+    dispatch(unlikePost(postId));
+  };
+
   return (
     <View style={styles.container}>
+      {console.log(userHandle)}
       <View style={styles.cardContainer}>
         <View style={styles.avatarContainer}>
           <Avatar.Image size={40} source={{uri: userImage}} />
@@ -61,8 +82,23 @@ const Card = (props: CardProps) => {
               <Button icon="chat">
                 {commentCount > 0 ? commentCount : null}
               </Button>
-              <Button icon="heart">{likeCount > 0 ? likeCount : null}</Button>
-              <Button icon="share-variant"></Button>
+
+              {likedPost() ? (
+                <Button
+                  icon="heart"
+                  color={COLORS.WARNING}
+                  onPress={unlikeThisPost}>
+                  {likeCount}{' '}
+                </Button>
+              ) : (
+                <Button icon="heart-outline" onPress={likeThisPost} />
+              )}
+
+              {userHandle === handle ? (
+                <Button color={COLORS.WARNING} icon="delete-forever"></Button>
+              ) : (
+                <Button icon="share-variant"></Button>
+              )}
             </View>
           </View>
         </View>

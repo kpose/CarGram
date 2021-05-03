@@ -38,6 +38,11 @@ const styles = StyleSheet.create({
     //marginTop: hp(1),
     marginLeft: wp(5),
   },
+  button: {
+    alignSelf: 'center',
+    width: wp(30),
+    marginTop: hp(2),
+  },
 });
 
 export default styles;

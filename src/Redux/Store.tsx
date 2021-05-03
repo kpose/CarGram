@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 import {composeWithDevTools} from 'remote-redux-devtools';
 import UserReducer from './Reducers/UserReducer';
 import uiReducer from './Reducers/uiReducer';
-//import DataReducer from './Reducers/DataReducer';
+import DataReducer from './Reducers/DataReducer';
 
 const initialState = {};
 
@@ -11,7 +11,7 @@ const middleware = [thunk];
 
 const reducers = combineReducers({
   user: UserReducer,
-  //data: DataReducer,
+  data: DataReducer,
   UI: uiReducer,
 });
 

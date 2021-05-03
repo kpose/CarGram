@@ -1,8 +1,18 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import {HomeStackNavigator} from './HomeStackNavigator';
 import {Notification, Messages} from '../Screens';
 import {useTheme, Portal, FAB} from 'react-native-paper';
+import {Modalize} from 'react-native-modalize';
+import {ThemeContext} from '../Contexts';
+
+import {
+  CombinedDarkTheme,
+  CombinedDefaultTheme,
+  customDark,
+  customLight,
+} from '../Utils/Theme/theme';
+
 import {
   useIsFocused,
   getFocusedRouteNameFromRoute,
@@ -13,6 +23,8 @@ const Tab = createMaterialBottomTabNavigator();
 export const BottomTabNavigator = () => {
   //const routeName = getFocusedRouteNameFromRoute(route) ?? 'Home';
   const isFocused = useIsFocused();
+  const editProfileRef = useRef<Modalize>(null);
+  const {isDarkTheme} = React.useContext(ThemeContext);
 
   let icon = 'feather';
 
@@ -27,6 +39,17 @@ export const BottomTabNavigator = () => {
 
   return (
     <React.Fragment>
+      <Modalize
+        ref={editProfileRef}
+        //modalHeight={heightPercentageToDP(65)}
+        modalStyle={{
+          backgroundColor: isDarkTheme
+            ? CombinedDarkTheme.colors.background
+            : CombinedDefaultTheme.colors.background,
+        }}
+        /*  HeaderComponent={modalHeader} */
+      ></Modalize>
+
       <Tab.Navigator
         initialRouteName="Home"
         backBehavior="initialRoute"
@@ -55,8 +78,9 @@ export const BottomTabNavigator = () => {
       </Tab.Navigator>
       <Portal>
         <FAB
-          visible={isFocused} // show FAB only when this screen is focused
-          icon="feather"
+          visible={isFocused}
+          onPress={() => editProfileRef.current?.open()}
+          icon="circle-edit-outline"
           style={{
             position: 'absolute',
             //bottom: safeArea.bottom + 65,

@@ -30,7 +30,7 @@ const BioArea = (props: BioAreaProps) => {
         <Text style={[CustomStyles.postBody, styles.bio]}>{props.bio}</Text>
       ) : null}
       <View style={styles.locationContainer}>
-        {props.location && (
+        {props.location ? (
           <>
             <MaterialCommunityIcons
               name="map-marker-outline"
@@ -39,7 +39,7 @@ const BioArea = (props: BioAreaProps) => {
             />
             <Text style={[CustomStyles.postBody]}>{props.location}</Text>
           </>
-        )}
+        ) : null}
 
         {props.website && (
           <>
