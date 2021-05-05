@@ -5,6 +5,7 @@ import {Notification, Messages} from '../Screens';
 import {useTheme, Portal, FAB} from 'react-native-paper';
 import {Modalize} from 'react-native-modalize';
 import {ThemeContext} from '../Contexts';
+import {NewPostModal} from '../Modals';
 
 import {
   CombinedDarkTheme,
@@ -37,10 +38,15 @@ export const BottomTabNavigator = () => {
       break;
   } */
 
+  const closeModal = () => {
+    editProfileRef.current?.close();
+  };
+
   return (
     <React.Fragment>
       <Modalize
         ref={editProfileRef}
+        withHandle={false}
         //modalHeight={heightPercentageToDP(65)}
         modalStyle={{
           backgroundColor: isDarkTheme
@@ -48,7 +54,16 @@ export const BottomTabNavigator = () => {
             : CombinedDefaultTheme.colors.background,
         }}
         /*  HeaderComponent={modalHeader} */
-      ></Modalize>
+      >
+        <NewPostModal
+          close={closeModal}
+          background={
+            isDarkTheme
+              ? CombinedDarkTheme.colors.background
+              : CombinedDefaultTheme.colors.background
+          }
+        />
+      </Modalize>
 
       <Tab.Navigator
         initialRouteName="Home"

@@ -72,12 +72,11 @@ export const deletePost = (postId: string) => (dispatch: any) => {
 
 /* make new post */
 
-export const makePost = (newPost: {}) => (dispatch: any) => {
+export const makePost = (newPost: any) => (dispatch: any) => {
   dispatch({type: LOADING_UI});
-
   axios
     .post(
-      `https://us-central1-cargram-72669.cloudfunctions.net/api/post`,
+      'https://us-central1-cargram-72669.cloudfunctions.net/api/post',
       newPost,
     )
     .then(res => {

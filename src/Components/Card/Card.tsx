@@ -14,7 +14,11 @@ import {ThemeContext} from '../../Contexts';
 import {useDispatch, useSelector} from 'react-redux';
 import {authenticated, logoutUser} from '../../Redux/Actions/UserActions';
 import auth from '@react-native-firebase/auth';
-import {unlikePost, likePost} from '../../Redux/Actions/DataActions';
+import {
+  unlikePost,
+  likePost,
+  deletePost,
+} from '../../Redux/Actions/DataActions';
 
 type CardProps = {
   post: any;
@@ -56,7 +60,6 @@ const Card = (props: CardProps) => {
 
   return (
     <View style={styles.container}>
-      {console.log(userHandle)}
       <View style={styles.cardContainer}>
         <View style={styles.avatarContainer}>
           <Avatar.Image size={40} source={{uri: userImage}} />
@@ -95,7 +98,10 @@ const Card = (props: CardProps) => {
               )}
 
               {userHandle === handle ? (
-                <Button color={COLORS.WARNING} icon="delete-forever"></Button>
+                <Button
+                  color={COLORS.WARNING}
+                  onPress={() => dispatch(deletePost(postId))}
+                  icon="delete-forever"></Button>
               ) : (
                 <Button icon="share-variant"></Button>
               )}
