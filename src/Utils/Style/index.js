@@ -13,6 +13,10 @@ export const CustomStyles = StyleSheet.create({
     fontSize: RFValue(16, height),
   },
 
+  postDetailsBody: {
+    fontSize: RFValue(18, height),
+  },
+
   title: {
     fontSize: RFValue(45, height),
     fontWeight: 'bold',
@@ -55,14 +59,18 @@ export const CustomStyles = StyleSheet.create({
   },
   caption: {
     fontSize: RFValue(18, height),
-    letterSpacing: -0.08,
+    //letterSpacing: -0.08,
   },
+
   buttonText: {
     fontSize: RFValue(17, height),
     fontWeight: 'bold',
   },
   smallButtonText: {
     fontSize: RFValue(11, height),
+  },
+  handle: {
+    fontSize: RFValue(16, height),
   },
   listHeader: {
     fontSize: RFValue(17, height),

@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {View, Image, TouchableOpacity} from 'react-native';
+import {View, Image, TouchableOpacity, Pressable} from 'react-native';
 import {
   Text,
   Avatar,
@@ -20,6 +20,7 @@ import {COLORS} from '../../Utils';
 import {ThemeContext} from '../../Contexts';
 import {useDispatch, useSelector} from 'react-redux';
 import {authenticated, logoutUser} from '../../Redux/Actions/UserActions';
+import {useNavigation} from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
 import {
   unlikePost,
@@ -40,6 +41,7 @@ const Card = (props: CardProps) => {
     credentials: {handle},
   } = useSelector(state => state.user);
   const [visible, setVisible] = useState(false);
+  const navigation = useNavigation();
   const {
     body,
     userHandle,
@@ -80,85 +82,94 @@ const Card = (props: CardProps) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.cardContainer}>
-        <View style={styles.avatarContainer}>
-          <Avatar.Image size={40} source={{uri: userImage}} />
-        </View>
-
-        <View style={styles.postContainer}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Text style={[styles.name, CustomStyles.name]}> Yudimy</Text>
-            <Text> @{userHandle} . </Text>
-            <Text>{dayjs(createdAt).fromNow()}</Text>
+      <Pressable
+        onPress={() =>
+          navigation.navigate('PostDetails', {
+            post: props.post,
+          })
+        }>
+        <View style={styles.cardContainer}>
+          <View style={styles.avatarContainer}>
+            <Avatar.Image size={40} source={{uri: userImage}} />
           </View>
-          <View style={styles.bodyContainer}>
-            <View style={{width: widthPercentageToDP(80)}}>
-              <Text style={[styles.bodyText, CustomStyles.postBody]}>
-                {body}
-              </Text>
+
+          <View style={styles.postContainer}>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Text style={[styles.name, CustomStyles.name]}> Yudimy</Text>
+              <Text style={[CustomStyles.handle]}> @{userHandle} . </Text>
+              <Text>{dayjs(createdAt).fromNow()}</Text>
             </View>
+            <View style={styles.bodyContainer}>
+              <View style={{width: widthPercentageToDP(80)}}>
+                <Text style={[styles.bodyText, CustomStyles.postBody]}>
+                  {body}
+                </Text>
+              </View>
 
-            <TouchableOpacity onPress={() => dispatch(logoutUser)}>
-              <Image source={imag} style={styles.image} />
-            </TouchableOpacity>
-            <View style={styles.buttonsContainer}>
-              <Button icon="chat">
-                {commentCount > 0 ? commentCount : null}
-              </Button>
-
-              {likedPost() ? (
-                <Button
-                  icon="heart"
-                  color={COLORS.WARNING}
-                  onPress={unlikeThisPost}>
-                  {likeCount}{' '}
+              <TouchableOpacity onPress={() => dispatch(logoutUser)}>
+                <Image source={imag} style={styles.image} />
+              </TouchableOpacity>
+              <View style={styles.buttonsContainer}>
+                <Button icon="chat">
+                  {commentCount > 0 ? commentCount : null}
                 </Button>
-              ) : (
-                <Button icon="heart-outline" onPress={likeThisPost} />
-              )}
 
-              {userHandle === handle ? (
-                <Button
-                  color={COLORS.WARNING}
-                  onPress={showDialog}
-                  icon="delete-forever"></Button>
-              ) : (
-                <Button icon="share-variant"></Button>
-              )}
-            </View>
-            <Portal>
-              <Dialog
-                visible={visible}
-                onDismiss={hideDialog}
-                style={styles.dialog}>
-                <Dialog.Title style={{color: COLORS.WARNING}}>
-                  Warning
-                </Dialog.Title>
-                <Dialog.Content>
-                  <Paragraph style={{color: 'white'}}>
-                    Are you sure you want to delete this post?
-                  </Paragraph>
-                </Dialog.Content>
-                <Dialog.Actions>
-                  <Button onPress={hideDialog}>Cancel </Button>
-                  <Button labelStyle={{color: 'red'}} onPress={deleteThisPost}>
-                    Delete
+                {likedPost() ? (
+                  <Button
+                    icon="heart"
+                    color={COLORS.WARNING}
+                    onPress={unlikeThisPost}>
+                    {likeCount}{' '}
                   </Button>
-                </Dialog.Actions>
-              </Dialog>
-            </Portal>
+                ) : (
+                  <Button icon="heart-outline" onPress={likeThisPost} />
+                )}
+
+                {userHandle === handle ? (
+                  <Button
+                    color={COLORS.WARNING}
+                    onPress={showDialog}
+                    icon="delete-forever"></Button>
+                ) : (
+                  <Button icon="share-variant"></Button>
+                )}
+              </View>
+              <Portal>
+                <Dialog
+                  visible={visible}
+                  onDismiss={hideDialog}
+                  style={styles.dialog}>
+                  <Dialog.Title style={{color: COLORS.WARNING}}>
+                    Warning
+                  </Dialog.Title>
+                  <Dialog.Content>
+                    <Paragraph style={{color: 'white'}}>
+                      Are you sure you want to delete this post?
+                    </Paragraph>
+                  </Dialog.Content>
+                  <Dialog.Actions>
+                    <Button onPress={hideDialog}>Cancel </Button>
+                    <Button
+                      labelStyle={{color: 'red'}}
+                      onPress={deleteThisPost}>
+                      Delete
+                    </Button>
+                  </Dialog.Actions>
+                </Dialog>
+              </Portal>
+            </View>
           </View>
         </View>
-      </View>
-      <View
-        style={{
-          height: widthPercentageToDP(0.1),
-          backgroundColor: COLORS.DARK_GRAY,
-          marginRight: widthPercentageToDP(1),
-          marginLeft: widthPercentageToDP(1),
-          marginTop: heightPercentageToDP(0.5),
-        }}
-      />
+        <View
+          style={{
+            height: widthPercentageToDP(0.1),
+            backgroundColor: COLORS.DARK_GRAY,
+            marginRight: widthPercentageToDP(1),
+            marginLeft: widthPercentageToDP(1),
+            marginTop: heightPercentageToDP(0.5),
+          }}
+        />
+      </Pressable>
     </View>
   );
 };

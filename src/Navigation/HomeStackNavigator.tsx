@@ -3,7 +3,7 @@ import {TouchableOpacity} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {Appbar, Avatar} from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {Home, Profile} from '../Screens';
+import {Home, Profile, PostDetails} from '../Screens';
 import {useSelector} from 'react-redux';
 import {customLight, customDark, navLight, navDark} from '../Utils/Theme/theme';
 import {ThemeContext} from '../Contexts';
@@ -24,6 +24,12 @@ export const HomeStackNavigator = () => {
         name="Home"
         component={Home}
         options={{headerTitle: 'Hooko'}}
+      />
+
+      <Stack.Screen
+        name="PostDetails"
+        component={PostDetails}
+        options={{headerTitle: 'Post'}}
       />
 
       <Stack.Screen
@@ -56,8 +62,8 @@ const Header = ({scene, previous, navigation}: any) => {
       theme={{
         colors: {
           primary: isDarkTheme
-            ? CombinedDarkTheme.colors.primary
-            : CombinedDefaultTheme.colors.primary,
+            ? CombinedDarkTheme.colors.background
+            : CombinedDefaultTheme.colors.background,
         },
       }}>
       {previous ? (

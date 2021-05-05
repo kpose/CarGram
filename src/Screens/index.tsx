@@ -6,6 +6,7 @@ import Welcome from './Welcome/Welcome';
 import Notification from './Notification/Notification';
 import Messages from './Messages/Messages';
 import Profile from './Profile/Profile';
+import PostDetails from './PostDetails/PostDetails';
 
 export {
   AppWalkThrough,
@@ -16,4 +17,5 @@ export {
   Notification,
   Messages,
   Profile,
+  PostDetails,
 };
