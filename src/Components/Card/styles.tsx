@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import {COLORS} from '../../Utils';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -39,6 +40,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     marginTop: hp(0.5),
     alignItems: 'center',
+  },
+  dialog: {
+    backgroundColor: COLORS.SECONDARY,
+    borderRadius: 30,
   },
 });
 

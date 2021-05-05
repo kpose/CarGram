@@ -1,6 +1,13 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {View, Image, TouchableOpacity} from 'react-native';
-import {Surface, Text, Avatar, Button} from 'react-native-paper';
+import {
+  Text,
+  Avatar,
+  Button,
+  Dialog,
+  Portal,
+  Paragraph,
+} from 'react-native-paper';
 import {
   heightPercentageToDP,
   widthPercentageToDP,
@@ -32,7 +39,7 @@ const Card = (props: CardProps) => {
     likes,
     credentials: {handle},
   } = useSelector(state => state.user);
-  console.log(props.post);
+  const [visible, setVisible] = useState(false);
   const {
     body,
     userHandle,
@@ -56,6 +63,19 @@ const Card = (props: CardProps) => {
 
   const unlikeThisPost = () => {
     dispatch(unlikePost(postId));
+  };
+
+  const showDialog = () => {
+    setVisible(true);
+  };
+
+  const hideDialog = () => {
+    setVisible(false);
+  };
+
+  const deleteThisPost = () => {
+    dispatch(deletePost(postId));
+    setVisible(false);
   };
 
   return (
@@ -100,12 +120,33 @@ const Card = (props: CardProps) => {
               {userHandle === handle ? (
                 <Button
                   color={COLORS.WARNING}
-                  onPress={() => dispatch(deletePost(postId))}
+                  onPress={showDialog}
                   icon="delete-forever"></Button>
               ) : (
                 <Button icon="share-variant"></Button>
               )}
             </View>
+            <Portal>
+              <Dialog
+                visible={visible}
+                onDismiss={hideDialog}
+                style={styles.dialog}>
+                <Dialog.Title style={{color: COLORS.WARNING}}>
+                  Warning
+                </Dialog.Title>
+                <Dialog.Content>
+                  <Paragraph style={{color: 'white'}}>
+                    Are you sure you want to delete this post?
+                  </Paragraph>
+                </Dialog.Content>
+                <Dialog.Actions>
+                  <Button onPress={hideDialog}>Cancel </Button>
+                  <Button labelStyle={{color: 'red'}} onPress={deleteThisPost}>
+                    Delete
+                  </Button>
+                </Dialog.Actions>
+              </Dialog>
+            </Portal>
           </View>
         </View>
       </View>

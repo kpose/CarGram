@@ -5,6 +5,8 @@ import {
   UNLIKE_POST,
   DELETE_POST,
   MAKE_POST,
+  SET_POST,
+  STOP_LOADING_UI,
 } from '../Constants';
 
 const initialState = {
@@ -46,6 +48,12 @@ export default function (state = initialState, action: any) {
         ...state,
         posts: [action.payload, ...state.posts],
       };
+    case SET_POST:
+      return {
+        ...state,
+        post: action.payload,
+      };
+
     default:
       return state;
   }

@@ -1,10 +1,12 @@
 import {
   LOADING_DATA,
   SET_POSTS,
+  SET_POST,
   LIKE_POST,
   UNLIKE_POST,
   DELETE_POST,
   LOADING_UI,
+  STOP_LOADING_UI,
   MAKE_POST,
   SET_ERRORS,
   CLEAR_ERRORS,
@@ -85,5 +87,24 @@ export const makePost = (newPost: any) => (dispatch: any) => {
     })
     .catch(err => {
       dispatch({type: SET_ERRORS, payload: err.response.data});
+    });
+};
+
+/* get post details */
+export const getPost = (postId: string) => (dispatch: any) => {
+  dispatch({type: LOADING_UI});
+  axios
+    .get(
+      `https://us-central1-cargram-72669.cloudfunctions.net/api/post/${postId}`,
+    )
+    .then(res => {
+      dispatch({
+        type: SET_POST,
+        payload: res.data,
+      });
+      dispatch({type: STOP_LOADING_UI});
+    })
+    .catch(err => {
+      console.log(err);
     });
 };
